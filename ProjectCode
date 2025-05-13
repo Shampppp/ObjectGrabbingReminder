@@ -1,1 +1,44 @@
+#include <NewPing.h>
 
+#define TRIGGER_PIN 10
+#define ECHO_PIN 9
+#define MAX_DISTANCE 400
+#define BUZZER_PIN 2
+
+NewPing waterbottle(10, 9, 200);
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  pinMode(2, OUTPUT);
+}
+
+bool BUZZ(int PIN) {
+  digitalWrite(PIN, HIGH);
+  delay(1000);
+  digitalWrite(PIN, LOW);
+  delay(500);
+}
+
+bool OFF(int PIN) {
+  digitalWrite(PIN, LOW);
+  delay(500);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  delay(4000);
+  float distance = waterbottle.ping_cm(400);
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  //every certain amount of time it will run this function
+
+  if (distance < 10) {
+    BUZZ(2);
+    BUZZ(2);
+    BUZZ(2);
+  } else {
+    OFF(2);
+  }
+}
